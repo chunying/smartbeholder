@@ -1,0 +1,54 @@
+
+# Makefile.def for POSIX-based OSes
+
+OS	= $(shell uname -s)
+HAVE_X11 ?= 1
+
+ifneq ($(strip $(SB_ANDROID)),)
+LINKSTL = shared
+include $(SBDEPS)/../deps.src/Makefile.ndk
+endif
+
+CC	?= gcc
+CXX	?= g++
+AR	?= ar
+LD	?= ld
+
+SBDEPS?= $(HOME)/myprog/beholder/deps.posix
+CFLAGS	= -O2 -fPIC -g -Wall -I$(SBDEPS)/include $(EXTRACFLAGS) -I/usr/local/include -DPIPELINE_FILTER
+#	-D__STDC_CONSTANT_MACROS
+LDFLAGS	= $(EXTRALDFLAGS) -L$(SBDEPS)/lib -Wl,-rpath,$$ORIGIN
+ifeq ($(strip $(SB_ANDROID)),)
+LDFLAGS	+= -lpthread
+endif
+
+ifneq ($(strip $(SB_ANDROID)),)
+CFLAGS	+= $(ANDROID_CXXFLAGS)
+LDFLAGS	+= $(ANDROID_LDFLAGS)
+endif
+
+AVCCF	= -D__STDC_CONSTANT_MACROS $(shell pkg-config --cflags libswscale libswresample libpostproc libavdevice libavfilter libavcodec libavformat)
+AVCLD	= $(shell pkg-config --libs libswscale libswresample libpostproc libavdevice libavfilter libavcodec libavformat libavutil)
+
+ifneq ($(strip $(SB_ANDROID)),)
+######## fixed SDL2 path
+SDLCF	= -I$(SBDEPS)/include/SDL2
+SDLLD	= -L$(SBDEPS)/lib -lSDL2
+
+else
+######## libraries for non-Android systems
+
+X11CF	?=
+X11LD	?= -lX11 -lXext -lXtst
+
+ASNDCF	=
+ASNDLD	= -lasound
+
+SDLCF	= $(shell pkg-config sdl2 SDL2_ttf --cflags)
+SDLLD	= $(shell pkg-config sdl2 SDL2_ttf --libs)
+
+endif
+
+L5CF	= -I$(SBDEPS)/include/live555
+L5LD	= -L$(SBDEPS)/lib -lliveMedia -lBasicUsageEnvironment -lUsageEnvironment -lgroupsock
+
