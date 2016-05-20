@@ -1,17 +1,16 @@
 
 SBDEPS		?= $(HOME)/myprog/smartbeholder/deps.posix
 MACHINE		?= $(shell uname -m)
+PARALLEL_MAKE	?= -j5
 SYSTEM		= $(shell uname -s)
-PARALLEL_MAKE	= -j5
-PACKAGES	= sdl2 sdl2_ttf ffmpeg live555
-OSX_CLANG_PATCH	= echo '*** Not on OS X: not applied ***'
+PACKAGES	= raspbian_pkgs sdl2 sdl2_ttf ffmpeg live555
 
 TBZUNPACK	= tar xjf
 TGZUNPACK	= tar xzf
 
 include Makefile.packages
 
-all: raspbian_pkgs $(PACKAGES)
+all: $(PACKAGES)
 
 raspbian_pkgs:
 	sudo apt-get install \
@@ -58,6 +57,7 @@ live555:
 	mv -f $(LIVE555DIR)/config.macosx $(LIVE555DIR)/config.macosx.old
 	cat $(LIVE555DIR)/config.linux.old | sed -e 's,^COMPILE_OPTS.*$$,& -fPIC,' > $(LIVE555DIR)/config.linux
 	cat $(LIVE555DIR)/config.macosx.old | sed -e 's,^COMPILE_OPTS.*$$,& -fPIC,' > $(LIVE555DIR)/config.macosx
+	# need to apply the 4MB buffer patch?
 	cd $(LIVE555DIR); cat ../patches/live555-* | patch -p1 
 	#
 	cd $(LIVE555DIR); ./genMakefiles $(shell uname -s | tr A-Z a-z | sed -e 's,darwin,macosx,' -e 's,cygwin.*,cygwin,')
