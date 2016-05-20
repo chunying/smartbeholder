@@ -1,0 +1,4 @@
+#!/bin/sh
+export SBDEPS=$HOME/myprog/smartbeholder/deps.posix
+export PKG_CONFIG_PATH=$SBDEPS/lib/pkgconfig:/opt/local/lib/pkgconfig:/usr/lib/i386-linux-gnu/pkgconfig/:/usr/lib/pkgconfig
+export PATH=$SBDEPS/bin:$PATH
