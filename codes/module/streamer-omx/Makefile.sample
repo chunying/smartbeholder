@@ -1,0 +1,26 @@
+
+CXX	= g++
+CC	= gcc
+CFLAGS	= -g -DNO_LIBCORE -Wall \
+	  -DHAVE_LIBOPENMAX=2 -DOMX -DOMX_SKIP64BIT -DUSE_EXTERNAL_OMX -DHAVE_LIBBCM_HOST -DUSE_EXTERNAL_LIBBCM_HOST \
+	  -DUSE_VCHIQ_ARM \
+	  -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
+LDFLAGS	= -L/opt/vc/lib -lopenmaxil -lbcm_host -lvcos -lvchiq_arm -lpthread -lrt
+
+.c.o:
+	$(CC) -c $(CFLAGS) $<
+
+.cpp.o:
+	$(CXX) -c $(CFLAGS) $<
+
+all: streamer rpi-camera-encode
+
+streamer: omx-streamer.cpp
+	$(CXX) -o $@ $(CFLAGS) $(LDFLAGS) $^
+
+rpi-encode-yuv: rpi-camera-encode.c
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^
+
+clean:
+	rm -f *.o streamer rpi-camera-encode
+
