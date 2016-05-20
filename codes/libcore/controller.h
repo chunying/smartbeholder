@@ -23,7 +23,7 @@
 #include "ctrl-msg.h"
 
 #define	CTRL_MAX_ID_LENGTH	64
-#define	CTRL_CURRENT_VERSION	"SBCtrlV01"
+#define	CTRL_CURRENT_VERSION	"GACtrlV01"
 #define	CTRL_QUEUE_SIZE		65536	// 64K
 
 typedef void (*msgfunc)(void *, int);
