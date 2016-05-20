@@ -1,5 +1,5 @@
 
-GADEPS		?= $(HOME)/myprog/smartbeholder/deps.posix
+SBDEPS		?= $(HOME)/myprog/smartbeholder/deps.posix
 MACHINE		?= $(shell uname -m)
 SYSTEM		= $(shell uname -s)
 PARALLEL_MAKE	= -j5
@@ -22,7 +22,7 @@ raspbian_pkgs:
 sdl2:
 	$(TGZUNPACK) $(SDL2)
 	mkdir -p $(SDL2DIR)/mybuild
-	cd $(SDL2DIR)/mybuild; ../configure --prefix=$(GADEPS) --with-pic
+	cd $(SDL2DIR)/mybuild; ../configure --prefix=$(SBDEPS) --with-pic
 	make -C $(SDL2DIR)/mybuild $(PARALLEL_MAKE)
 	make -C $(SDL2DIR)/mybuild install
 	rm -rf $(SDL2DIR)
@@ -30,14 +30,14 @@ sdl2:
 sdl2_ttf:
 	$(TGZUNPACK) $(SDL2_TTF)
 	mkdir -p $(SDL2_TTFDIR)/mybuild
-	cd $(SDL2_TTFDIR)/mybuild; ../configure --prefix=$(GADEPS) --with-pic
+	cd $(SDL2_TTFDIR)/mybuild; ../configure --prefix=$(SBDEPS) --with-pic
 	make -C $(SDL2_TTFDIR)/mybuild $(PARALLEL_MAKE)
 	make -C $(SDL2_TTFDIR)/mybuild install
 	rm -rf $(SDL2_TTFDIR)
 
 ffmpeg:
 	$(TBZUNPACK) $(FFMPEG)
-	cd $(FFMPEGDIR); ./configure --prefix=$(GADEPS) \
+	cd $(FFMPEGDIR); ./configure --prefix=$(SBDEPS) \
 		--enable-shared --enable-pic \
 		--enable-libmp3lame \
 		--enable-libtheora --enable-libvorbis \
@@ -45,8 +45,8 @@ ffmpeg:
 		--enable-libopus \
 		--enable-libxvid \
 		--enable-gpl --enable-nonfree --disable-outdev=sdl \
-		--extra-cflags=-I$(GADEPS)/include \
-		--extra-ldflags=-L$(GADEPS)/lib
+		--extra-cflags=-I$(SBDEPS)/include \
+		--extra-ldflags=-L$(SBDEPS)/lib
 	make -C $(FFMPEGDIR) $(PARALLEL_MAKE)
 	make -C $(FFMPEGDIR) install
 	rm -rf $(FFMPEGDIR)
@@ -62,10 +62,10 @@ live555:
 	#
 	cd $(LIVE555DIR); ./genMakefiles $(shell uname -s | tr A-Z a-z | sed -e 's,darwin,macosx,' -e 's,cygwin.*,cygwin,')
 	make -C $(LIVE555DIR) $(PARALLEL_MAKE)
-	-mkdir -p $(GADEPS)/lib
-	find $(LIVE555DIR) -name '*.a' -exec cp -f {} $(GADEPS)/lib \;
-	-mkdir -p $(GADEPS)/include/live555
-	find $(LIVE555DIR) -name '*.hh' -exec cp -f {} $(GADEPS)/include/live555 \;
-	cp -f $(LIVE555DIR)/groupsock/include/NetCommon.h $(GADEPS)/include/live555
+	-mkdir -p $(SBDEPS)/lib
+	find $(LIVE555DIR) -name '*.a' -exec cp -f {} $(SBDEPS)/lib \;
+	-mkdir -p $(SBDEPS)/include/live555
+	find $(LIVE555DIR) -name '*.hh' -exec cp -f {} $(SBDEPS)/include/live555 \;
+	cp -f $(LIVE555DIR)/groupsock/include/NetCommon.h $(SBDEPS)/include/live555
 	rm -rf $(LIVE555DIR)
 
