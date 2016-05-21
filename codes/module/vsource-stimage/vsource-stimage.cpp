@@ -31,7 +31,6 @@
 #include "core-conf.h"
 #include "core-common.h"
 #include "core-avcodec.h"
-//yibin: for capture and stitching
 #include "captst.h"
 using namespace std;
 
@@ -61,17 +60,10 @@ static int
 vsource_init(void *arg) {
 	int width, height, fps;
 	unsigned int size;
-	char filename[1024];
-	FILE *fp;
 	//
 	if(vsource_initialized != 0)
 		return 0;
 	// load configuration
-/*	if((sb_conf_readv("image-source-file",
-			filename, sizeof(filename))) == NULL) {
-		sb_error("image-source: no filename given\n");
-		return -1;
-	}*/
 	if((width = sb_conf_readint("image-source-width")) <= 0) {
 		sb_error("image-source: no width given\n");
 		return -1;
@@ -88,18 +80,8 @@ vsource_init(void *arg) {
 	if((image_buf = (char*) malloc(size)) == NULL) {
 		sb_error("image-source: memory allocation failed.\n");
 		return -1;
-	}/*
-	if((fp = fopen(filename, "rb")) == NULL) {
-		free(image_buf);
-		sb_error("image-source: open %s failed.\n", filename);
-		return -1;
 	}
-	if(fread(image_buf, sizeof(char), size, fp) != size) {
-		sb_error("image-source: load image failed.\n");
-		return -1;
-	}
-	fclose(fp);*/
-	//yibin: init captst
+	//init captst
 	if(captst_init() < 0) {
 		sb_error("captst init error\n");
 		return -1;
@@ -192,7 +174,7 @@ vsource_threadproc(void *arg) {
 		frame->linesize[0] = image_width;
 		frame->linesize[1] = image_width / 2;
 		frame->linesize[2] = image_width / 2;
-		//yibin: perform capture and stitching
+		//perform capture and stitching
 		captst_perform(image_buf, image_size);
     bcopy(image_buf, frame->imgbuf, image_size);
     sb_error("complete stitching\n");

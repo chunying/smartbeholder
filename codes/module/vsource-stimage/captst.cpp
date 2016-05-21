@@ -58,7 +58,7 @@ captst_perform(char *buf, int buflen){
 
     //Start capture
     cout<<"Capturing"<<endl;
-    for ( int i = 1; i < nCount; i++ ) {
+    for ( int i = 0; i < nCount; i++ ) {
       Camera.grab();
       Camera.retrieve (image);
       if ( i%5 == 0 )

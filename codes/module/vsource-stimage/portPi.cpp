@@ -32,9 +32,6 @@ int PiSetup (void)
   int   model, rev, mem, maker, overVolted ;
   static int alreadyCalled = false ;
 
-// This is here to trap the unwary - those who's program appears to work then fails some
-//  time later with a weird error message because you run out of file-handles.
-
   boardRev = 2 ;
   piModel2 = true;
 
@@ -49,17 +46,12 @@ int PiSetup (void)
     physToGpio = physToGpioR2 ;
   }
 
-// Note that a Zero is a model 1
 
   if (piModel2)
     RASPBERRY_PI_PERI_BASE = 0x3F000000 ;
   else
     RASPBERRY_PI_PERI_BASE = 0x20000000 ;
 
-// Open the master /dev/ memory control device
-
-
-// Set the offsets into the memory interface.
 
   GPIO_PADS     = RASPBERRY_PI_PERI_BASE + 0x00100000 ;
   GPIO_CLOCK_BASE = RASPBERRY_PI_PERI_BASE + 0x00101000 ;
@@ -67,7 +59,6 @@ int PiSetup (void)
   GPIO_TIMER    = RASPBERRY_PI_PERI_BASE + 0x0000B000 ;
   GPIO_PWM    = RASPBERRY_PI_PERI_BASE + 0x0020C000 ;
 
-// Map the individual hardware components
 
   if (false)
   {
@@ -75,14 +66,9 @@ int PiSetup (void)
       printf("wiringPiSetup: Unable to open /dev/gpiomem\n");
     RASPBERRY_PI_PERI_BASE = 0 ;
   }
-
-//	... otherwise fall back to the original /dev/mem which requires root level access
-
   else
   {
 
-//	This check is here because people are too stupid to check for themselves or read
-//		error messages.
 
     if (geteuid () != 0)
       printf("UID Error, did you forget sudo?\n");
@@ -91,18 +77,10 @@ int PiSetup (void)
       printf("Unable to open /dev/mem \n");
   }
 
-// Set the offsets into the memory interface.
-
-
 //  GPIO:
-
   gpio = (uint32_t *)mmap(0, BLOCK_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd, GPIO_BASE) ;
   if ((int32_t)gpio == -1)
     printf("wiringPiSetup: mmap (GPIO) failed\n");
-
-  //initialiseEpoch () ;
-
-// If we're running on a compute module, then wiringPi pin numbers don't really many anything...
 
   /*piBoardId (&model, &rev, &mem, &maker, &overVolted) ;
   if (model == PI_MODEL_CM)
@@ -147,7 +125,6 @@ void pinMode (int pin, int mode)
 }
 void digitalWrite (int pin, int value)
 {
-//  struct wiringPiNodeStruct *node = wiringPiNodes ;
 
   if ((pin & PI_GPIO_MASK) == 0)    // On-Board Pin
   {
