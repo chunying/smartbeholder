@@ -15,7 +15,7 @@ all: $(PACKAGES)
 raspbian_pkgs:
 	sudo apt-get install \
 		libmp3lame-dev libopus-dev libogg-dev libvorbis-dev \
-		libtheora-dev libvpx-dev libx264-dev libxvidcore-dev\
+		libtheora-dev libvpx-dev libx264-dev libxvidcore-dev \
 		libopencv-dev
 			
 raspicam:
