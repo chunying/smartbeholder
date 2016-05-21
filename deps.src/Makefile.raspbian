@@ -3,7 +3,7 @@ SBDEPS		?= $(HOME)/myprog/smartbeholder/deps.posix
 MACHINE		?= $(shell uname -m)
 PARALLEL_MAKE	?= -j5
 SYSTEM		= $(shell uname -s)
-PACKAGES	= raspbian_pkgs sdl2 sdl2_ttf ffmpeg live555
+PACKAGES	= raspbian_pkgs raspicam sdl2 sdl2_ttf ffmpeg live555
 
 TBZUNPACK	= tar xjf
 TGZUNPACK	= tar xzf
@@ -15,8 +15,16 @@ all: $(PACKAGES)
 raspbian_pkgs:
 	sudo apt-get install \
 		libmp3lame-dev libopus-dev libogg-dev libvorbis-dev \
-		libtheora-dev libvpx-dev libx264-dev libxvidcore-dev
+		libtheora-dev libvpx-dev libx264-dev libxvidcore-dev\
+		libopencv-dev
 			
+raspicam:
+	$(TGZUNPACK) $(RASPICAM)
+	mkdir $(RASPICAMDIR)/build
+	cd $(RASPICAMDIR)/build; cmake -DCMAKE_INSTALL_PREFIX:PATH=$(SBDEPS) ..
+	make -C $(RASPICAMDIR)/build
+	make -C $(RASPICAMDIR)/build install
+	rm -rf $(RASPICAMDIR)
 
 sdl2:
 	$(TGZUNPACK) $(SDL2)

@@ -1,7 +1,7 @@
 
 include Makefile.common
 
-TARGET	= server-live555 streamer-omx encoder-x264 vsource-image
+TARGET	= server-live555 streamer-omx encoder-x264 vsource-image vsource-stimage
 
 all:
 	for t in $(TARGET); do make -C $$t || exit 1; done
