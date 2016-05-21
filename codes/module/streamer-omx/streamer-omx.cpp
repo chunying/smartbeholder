@@ -263,7 +263,7 @@ vencoder_init(void *arg) {
 	sc.camera_filter =
 		(enum OMX_IMAGEFILTERTYPE) sb_omx_load_int("camera-omx-filter", (int) OMX_ImageFilterNone, (int) OMX_ImageFilterMax, (int) OSCAM_DEF_IMAGE_FILTER);
 	//
-	if(omx_streamer_init(&omxe[iid], NULL, width, height, fps, 1, bitrate, gopsize) < 0) {
+	if(omx_streamer_init(&omxe[iid], &sc, width, height, fps, 1, bitrate, gopsize) < 0) {
 		sb_error("video encoder: init failed.\n");
 		return -1;
 	}
