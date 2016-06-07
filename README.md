@@ -25,5 +25,15 @@ Download: http://www.smartbeholder.org/download.html
 
 * Prerequisite
 
+  - GNU C++ compiler
+  - pkg-config
+
 * Steps
 
+  1. Edit the 'env-setup' script to ensure that SBDEPS points to a correct directory.
+     It should be an absolute path to smartbeholder/deps.posix directory.
+  2. Merge environment variables from 'env-setup' by using '.' or 'source' command.
+  3. Build dependencies by running 'make' in the 'deps.src' directory.
+  4. Build smartbeholer by running 'make all' command in the 'codes' directory.
+  5. Install smartbeholder by running 'make install' command in the 'codes' directory.
+     All the generated files will be installed into 'bin' directory.
