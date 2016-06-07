@@ -3,7 +3,7 @@ smartbeholder
 
 Smart Beholder: An Open-Source Smart Lens for Mobile Photography
 
-* Overview
+# Overview
 
 Smart Beholder is an open-source smart lens for mobile photogrphy.
 Smart lenses are detachable lenses connected to mobile devices via
@@ -15,9 +15,15 @@ Smart Beholder currently supports Raspberry Pi, and can be ported to
 other embedded boards with camera, Wi-Fi, and hardware
 accelerated video codec modules.
 
-* Documents
+# Documents
 
 Official web site: http://www.smartbeholder.org/
 
 Download: http://www.smartbeholder.org/download.html
+
+# Quick Installation Guide
+
+* Prerequisite
+
+* Steps
 
