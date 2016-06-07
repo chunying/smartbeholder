@@ -25,6 +25,7 @@ Download: http://www.smartbeholder.org/download.html
 
 * Prerequisite
 
+  - Raspberry Pi (or a compatible hardware)
   - GNU C++ compiler
   - pkg-config
 
